@@ -1,4 +1,4 @@
-# SwiftUIPageView
+# SwiftUI PageView
 
 SwiftUI stack views with paged scrolling behaviour.
 
