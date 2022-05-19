@@ -10,6 +10,7 @@ internal struct PageLayoutView<Content>: View
 where Content : View
 {
     var alignment: Alignment
+    var animationState: AnimationState
     var axis: Axis
     var content: () -> Content
     var pageLength: CGFloat
@@ -25,7 +26,11 @@ where Content : View
                     content()
                         .frame(width: pageLength)
                 }
-                .modifier(ViewCounter(axis: axis, pageLength: pageLength, pageState: pageState, spacing: spacing))
+                .modifier(ViewCounter(animationState: animationState,
+                                      axis: axis,
+                                      pageLength: pageLength,
+                                      pageState: pageState,
+                                      spacing: spacing))
                 .frame(width: viewLength, alignment: .leading)
                 
             case .vertical:
@@ -33,7 +38,11 @@ where Content : View
                     content()
                         .frame(height: pageLength)
                 }
-                .modifier(ViewCounter(axis: axis, pageLength: pageLength, pageState: pageState, spacing: spacing))
+                .modifier(ViewCounter(animationState: animationState,
+                                      axis: axis,
+                                      pageLength: pageLength,
+                                      pageState: pageState,
+                                      spacing: spacing))
                 .frame(height: viewLength, alignment: .top)
             }
         }

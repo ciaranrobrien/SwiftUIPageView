@@ -7,7 +7,14 @@
 import SwiftUI
 
 public extension View {
-    func pageAlignmentMode(_ mode: PageAlignmentMode) -> some View {
-        environment(\.pageAlignmentMode, mode)
+    
+    /// Adds a condition that controls whether page views always use
+    /// their provided alignment to position pages.
+    ///
+    /// - Parameters:
+    ///   - strict: A Boolean value that determines whether page
+    ///     views always use their provided alignment to position pages.
+    func strictPageAlignment(_ strict: Bool = true) -> some View {
+        environment(\.strictPageAlignment, strict)
     }
 }

@@ -6,6 +6,8 @@
 
 import SwiftUI
 
+/// A view that arranges its children in a line, and provides paged
+/// scrolling behaviour.
 public struct PageView<Content>: View
 where Content : View
 {
@@ -15,7 +17,7 @@ where Content : View
         GeometryReader { geometry in
             let spacing = spacing ?? 8
             let viewLength = viewLength(for: geometry)
-            let pageLength = pageLength(for: geometry, viewLength: viewLength)
+            let pageLength = pageLength(viewLength: viewLength)
             let baseOffset = baseOffset(pageLength: pageLength, viewLength: viewLength)
             
             PageGestureView(alignment: alignment,
@@ -39,13 +41,30 @@ where Content : View
 
 public extension PageView {
     
+    /// A view that arranges its children in a line, and provides paged
+    /// scrolling behaviour.
+    ///
+    /// This view returns a flexible preferred size to its parent layout.
+    ///
+    /// Changes to the layout axis will cause the pages to lose their state,
+    /// and will not be animated.
+    ///
+    /// - Parameters:
+    ///   - axis: The layout axis of this page view.
+    ///   - alignment: The guide for aligning the pages in this page view.
+    ///   - pageLength: The length of each page, parallel to the layout axis,
+    ///     or `nil` if you want each page to fill the length of the page view.
+    ///   - spacing: The distance between adjacent pages, or `nil` if you
+    ///     want the page view to choose a default distance for each pair of
+    ///     pages.
+    ///   - content: A view builder that creates the content of this page view.
     init(_ axis: Axis,
-         alignment preferredAlignment: PageAlignment<HorizontalPageAlignment, VerticalPageAlignment> = .center,
+         alignment: PageAlignment<HorizontalPageAlignment, VerticalPageAlignment> = .center,
          pageLength: CGFloat? = nil,
          spacing: CGFloat? = nil,
          @ViewBuilder content: @escaping () -> Content)
     {
-        self.alignment = preferredAlignment.alignment
+        self.alignment = alignment.alignment
         self.axis = axis
         self.content = content
         self.pageLength = pageLength

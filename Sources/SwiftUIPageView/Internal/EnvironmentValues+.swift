@@ -7,13 +7,13 @@
 import SwiftUI
 
 internal extension EnvironmentValues {
-    var pageAlignmentMode: PageAlignmentMode {
-        get { self[PageAlignmentModeKey.self] }
-        set { self[PageAlignmentModeKey.self] = newValue }
+    var strictPageAlignment: Bool {
+        get { self[StrictPageAlignmentKey.self] }
+        set { self[StrictPageAlignmentKey.self] = newValue }
     }
 }
 
 
-private struct PageAlignmentModeKey: EnvironmentKey {
-    static let defaultValue = PageAlignmentMode.normal
+private struct StrictPageAlignmentKey: EnvironmentKey {
+    static let defaultValue = false
 }

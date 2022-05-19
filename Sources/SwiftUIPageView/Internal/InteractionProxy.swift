@@ -8,7 +8,7 @@ import SwiftUI
 
 internal struct InteractionProxy: Equatable {
     let id: UUID
-    let pageTo: (CGFloat) -> Void
+    let moveTo: (CGFloat) -> Void
     
     static func == (lhs: InteractionProxy, rhs: InteractionProxy) -> Bool {
         lhs.id == rhs.id

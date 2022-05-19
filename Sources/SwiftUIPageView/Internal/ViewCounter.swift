@@ -7,8 +7,7 @@
 import SwiftUI
 
 internal struct ViewCounter: ViewModifier {
-    @State private var transaction = Transaction()
-    
+    var animationState: AnimationState
     var axis: Axis
     var pageLength: CGFloat
     var pageState: PageState
@@ -16,28 +15,30 @@ internal struct ViewCounter: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .transaction {
-                updateTransaction($0)
-            }
+            .transaction { onAnimation($0.animation) }
             .background(
                 GeometryReader { geometry in
                     let state = ViewState(pageLength: pageLength, size: geometry.size, spacing: spacing)
                     
                     Color.clear
-                        .onAppear {
-                            updateCount(from: state)
-                        }
-                        .onChange(of: state) { newValue in
-                            DispatchQueue.main.async {
-                                updateCount(from: newValue)
-                            }
-                        }
+                        .onAppear { onState(state: state) }
+                        .onChange(of: state, perform: onState)
                 }
                 .hidden()
             )
     }
     
-    private func updateCount(from state: ViewState) {
+    private func onAnimation(_ animation: Animation?) {
+        if animation != animationState.dragAnimation && animationState.viewAnimationCanUpdate {
+            animationState.viewAnimation = animation
+            animationState.viewAnimationCanUpdate = false
+            
+            DispatchQueue.main.async {
+                animationState.viewAnimationCanUpdate = true
+            }
+        }
+    }
+    private func onState(state: ViewState) {
         let count: Int
         let itemLength = state.pageLength + state.spacing
         
@@ -54,17 +55,9 @@ internal struct ViewCounter: ViewModifier {
             count = 0
         }
         
-        withTransaction(transaction) {
-            pageState.viewCount = count
-        }
-    }
-    private func updateTransaction(_ newValue: Transaction) {
-        if transaction.animation != newValue.animation
-            || transaction.disablesAnimations != newValue.disablesAnimations
-            || transaction.isContinuous != newValue.isContinuous
-        {
-            DispatchQueue.main.async {
-                transaction = newValue
+        if pageState.viewCount != count {
+            withAnimation(animationState.viewAnimation) {
+                pageState.viewCount = count
             }
         }
     }

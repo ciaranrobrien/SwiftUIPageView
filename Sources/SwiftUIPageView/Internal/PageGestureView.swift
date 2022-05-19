@@ -9,8 +9,9 @@ import SwiftUI
 internal struct PageGestureView<Content>: View
 where Content : View
 {
-    @Environment(\.pageAlignmentMode) private var pageAlignmentMode
+    @Environment(\.strictPageAlignment) private var strictPageAlignment
     @GestureState private var isDragging = false
+    @StateObject private var animationState = AnimationState()
     @StateObject private var pageState = PageState()
     
     var alignment: Alignment
@@ -23,6 +24,7 @@ where Content : View
     
     var body: some View {
         PageLayoutView(alignment: alignment,
+                       animationState: animationState,
                        axis: axis,
                        content: content,
                        pageLength: pageLength,
@@ -33,7 +35,7 @@ where Content : View
             .offset(offset)
             .contentShape(Rectangle())
             .highPriorityGesture(gesture)
-            .preference(key: InteractionProxyKey.self, value: InteractionProxy(id: pageState.id, pageTo: pageTo))
+            .preference(key: InteractionProxyKey.self, value: InteractionProxy(id: pageState.id, moveTo: pageTo))
             .onChange(of: isCancelled, perform: onDragCancelled)
     }
     
@@ -84,12 +86,9 @@ where Content : View
         var lowerBound = -(CGFloat(pageState.viewCount - 1) * (pageLength + spacing))
         var upperBound: CGFloat = 0
         
-        switch pageAlignmentMode {
-        case .normal:
+        if !strictPageAlignment {
             upperBound = -baseOffset
             lowerBound += (viewLength - pageLength) - baseOffset
-        case .strict:
-            break
         }
         
         return lowerBound...upperBound
@@ -125,10 +124,11 @@ where Content : View
             
             let distance = min(max(indexToOffset(newIndex), offsetRange.lowerBound), offsetRange.upperBound) - computedOffset
             
+            animationState.dragAnimation = .dragEnded(distance: distance, velocity: 0, viewLength: viewLength)
             pageState.dragState = distance == 0 ? .ended : .ending
             pageState.initialIndex = nil
             
-            withAnimation(.dragEnded(distance: distance, velocity: 0, viewLength: viewLength)) {
+            withAnimation(animationState.dragAnimation) {
                 pageState.index = newIndex
                 pageState.indexOffset = 0
             }
@@ -160,10 +160,11 @@ where Content : View
         
         let distance = min(max(indexToOffset(newIndex), offsetRange.lowerBound), offsetRange.upperBound) - computedOffset
         
+        animationState.dragAnimation = .dragEnded(distance: distance, velocity: velocity, viewLength: viewLength)
         pageState.dragState = distance == 0 ? .ended : .ending
         pageState.initialIndex = nil
         
-        withAnimation(.dragEnded(distance: distance, velocity: velocity, viewLength: viewLength)) {
+        withAnimation(animationState.dragAnimation) {
             pageState.index = newIndex
             pageState.indexOffset = 0
         }
@@ -193,10 +194,11 @@ where Content : View
             initialOffset = additionalOffset
         }
         
+        animationState.dragAnimation = .dragStarted
         pageState.dragState = .dragging
         pageState.initialIndex = offsetToIndex(initialOffset)
         
-        withAnimation(.dragStarted) {
+        withAnimation(animationState.dragAnimation) {
             pageState.index = offsetToIndex(offset)
             pageState.indexOffset = offsetToIndex(additionalOffset - initialOffset)
         }

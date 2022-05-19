@@ -26,7 +26,7 @@ internal extension PageView {
             }
         }
     }
-    func pageLength(for geometry: GeometryProxy, viewLength: CGFloat) -> CGFloat {
+    func pageLength(viewLength: CGFloat) -> CGFloat {
         max(round((pageLength ?? viewLength) * displayScale) / displayScale, 0)
     }
     func viewLength(for geometry: GeometryProxy) -> CGFloat {
