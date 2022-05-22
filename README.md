@@ -51,7 +51,7 @@ PageView(.horizontal, alignment: .leading, pageLength: 250, spacing: 12) {
 ### Parameters
 * `axis`: The layout axis of this page view.
 * `alignment`: The guide for aligning the pages in this page view.
-* `pageHeight`: The length of each page, parallel to the layout axis, or `nil` if you want each page to fill the length of the page view.
+* `pageLength`: The length of each page, parallel to the layout axis, or `nil` if you want each page to fill the length of the page view.
 * `spacing`: The distance between adjacent pages, or `nil` if you want the page view to choose a default distance for each pair of pages.
 * `content`: A view builder that creates the content of this page view.
 
