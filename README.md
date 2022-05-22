@@ -76,7 +76,7 @@ PageViewReader { proxy in
 ## PageViewProxy
 A proxy value that supports programmatic paging of the first page view within a view hierarchy.
 
-### Parameters
+### Functions
 * `moveTo(index:)`: Scans the first page view contained by the proxy for the page with the index closest to `index`, and then moves to that page.
 * `moveToFirst()`: Scans the first page view contained by the proxy for the first page, and then moves to that page.
 * `moveToLast()`: Scans the first page view contained by the proxy for the last page, and then moves to that page.
