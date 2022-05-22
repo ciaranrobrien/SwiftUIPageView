@@ -64,7 +64,9 @@ PageViewReader { proxy in
     HPageView {
         //Pages
             .onTapGesture {
-                proxy.moveToFirst()
+                withAnimation {
+                    proxy.moveToFirst()
+                }
             }
     }
 }
