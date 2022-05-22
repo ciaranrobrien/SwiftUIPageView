@@ -63,9 +63,9 @@ A view that provides programmatic paging, by working with a proxy to move to chi
 PageViewReader { proxy in
     HPageView {
         //Pages
-          .onTapGesture {
-              proxy.moveToFirst()
-          }
+            .onTapGesture {
+                proxy.moveToFirst()
+            }
     }
 }
 ```
