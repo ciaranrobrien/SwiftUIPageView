@@ -62,13 +62,13 @@ A view that provides programmatic paging, by working with a proxy to move to chi
 ```swift
 PageViewReader { proxy in
     HPageView {
+        //Pages
+        
         Button("First") {
             withAnimation {
                 proxy.moveToFirst()
             }
         }
-        
-        //More pages
     }
 }
 ```
