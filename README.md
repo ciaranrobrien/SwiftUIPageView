@@ -39,6 +39,8 @@ VPageView(alignment: .top, pageHeight: 250, spacing: 12) {
 ## PageView
 A view that arranges its children in a line, and provides paged scrolling behaviour.
 
+**Changes to the layout axis will cause the pages to lose their state, and will not be animated.**
+
 ### Usage
 ```swift
 PageView(.horizontal, alignment: .leading, pageLength: 250, spacing: 12) {
