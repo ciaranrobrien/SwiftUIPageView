@@ -46,8 +46,8 @@ public extension PageView {
     ///
     /// This view returns a flexible preferred size to its parent layout.
     ///
-    /// Changes to the layout axis will cause the pages to lose their state,
-    /// and will not be animated.
+    /// Changes to the layout axis will cause the pages to lose any internal
+    /// state, and will not be animated.
     ///
     /// - Parameters:
     ///   - axis: The layout axis of this page view.
