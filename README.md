@@ -39,7 +39,7 @@ VPageView(alignment: .top, pageHeight: 250, spacing: 12) {
 ## PageView
 A view that arranges its children in a line, and provides paged scrolling behaviour.
 
-**Changes to the layout axis will cause the pages to lose their state, and will not be animated.**
+**Changes to the layout axis will cause the pages to lose any internal state, and will not be animated.**
 
 ### Usage
 ```swift
@@ -86,6 +86,11 @@ A proxy value that supports programmatic paging of the first page view within a 
 
 ## Advanced Usage
 The `strictPageAlignment` view modifier can be used to control whether page views always use their provided alignment to position pages. Without this modifier pages will be aligned to prevent leaving empty space in the page view.
+
+## Known Issues
+* Changes to the layout axis of a `PageView` will cause the pages to lose any internal state, and will not be animated.
+* Active paging animations in a page view may interfere with other animations when the number of pages changes.
+* Nested page views are not currently supported.
 
 ## Requirements
 
