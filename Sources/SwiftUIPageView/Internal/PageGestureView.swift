@@ -21,6 +21,7 @@ where Content : View
     var pageLength: CGFloat
     var spacing: CGFloat
     var viewLength: CGFloat
+    @Binding var index: Int
     
     var body: some View {
         PageLayoutView(alignment: alignment,
@@ -100,6 +101,19 @@ where Content : View
     private func offsetToIndex(_ offset: CGFloat) -> CGFloat {
         -offset / (pageLength + spacing)
     }
+	
+    private func intFromIndex(_ index: CGFloat) -> Int {
+        if index == .infinity {
+            return pageState.viewCount - 1
+        } else if index == -.infinity {
+            return 0
+        } else if index.isNaN {
+            return 0
+        } else {
+            return Int(round(index))
+        }
+    }
+
     private func onDragChanged(value: DragGesture.Value) {
         if let initialIndex = pageState.initialIndex {
             onDragUpdated(value: value, initialIndex: initialIndex)
@@ -131,6 +145,7 @@ where Content : View
             withAnimation(animationState.dragAnimation) {
                 pageState.index = newIndex
                 pageState.indexOffset = 0
+                self.index = intFromIndex(newIndex)
             }
         }
     }
@@ -167,6 +182,7 @@ where Content : View
         withAnimation(animationState.dragAnimation) {
             pageState.index = newIndex
             pageState.indexOffset = 0
+            self.index = intFromIndex(newIndex)
         }
     }
     private func onDragStarted(value: DragGesture.Value) {
@@ -201,6 +217,7 @@ where Content : View
         withAnimation(animationState.dragAnimation) {
             pageState.index = offsetToIndex(offset)
             pageState.indexOffset = offsetToIndex(additionalOffset - initialOffset)
+            self.index = intFromIndex(offsetToIndex(offset))
         }
     }
     private func onDragUpdated(value: DragGesture.Value, initialIndex: CGFloat) {
@@ -229,5 +246,6 @@ where Content : View
         pageState.dragState = distance == 0 ? .ended : .ending
         pageState.index = newIndex
         pageState.indexOffset = 0
+        self.index = intFromIndex(newIndex)
     }
 }
