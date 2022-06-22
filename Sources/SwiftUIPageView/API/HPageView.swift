@@ -29,12 +29,14 @@ where Content : View
     public init(alignment: PageAlignment<HorizontalPageAlignment, VerticalAlignment> = .center,
                 pageWidth: CGFloat? = nil,
                 spacing: CGFloat? = nil,
+                index: Binding<Int> = Binding.constant(0),
                 @ViewBuilder content: @escaping () -> Content)
     {
         body = PageView(alignment: alignment.alignment,
                         axis: .horizontal,
                         content: content,
                         pageLength: pageWidth,
-                        spacing: spacing)
+                        spacing: spacing,
+                        index: index)
     }
 }
