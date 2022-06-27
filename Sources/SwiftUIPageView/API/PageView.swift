@@ -26,7 +26,9 @@ where Content : View
                             content: content,
                             pageLength: pageLength,
                             spacing: spacing,
-                            viewLength: viewLength)
+                            gestureMinimumDistance: gestureMinimumDistance,
+                            viewLength: viewLength,
+                            index: $index)
         }
         .animation(nil, value: axis)
     }
@@ -36,6 +38,8 @@ where Content : View
     internal var content: () -> Content
     internal var pageLength: CGFloat?
     internal var spacing: CGFloat?
+    internal var gestureMinimumDistance: GestureMinimumDistance
+    @Binding var index: Int
 }
 
 
@@ -62,6 +66,8 @@ public extension PageView {
          alignment: PageAlignment<HorizontalPageAlignment, VerticalPageAlignment> = .center,
          pageLength: CGFloat? = nil,
          spacing: CGFloat? = nil,
+         gestureMinimumDistance: GestureMinimumDistance,
+         index: Binding<Int> = Binding.constant(0),
          @ViewBuilder content: @escaping () -> Content)
     {
         self.alignment = alignment.alignment
@@ -69,5 +75,7 @@ public extension PageView {
         self.content = content
         self.pageLength = pageLength
         self.spacing = spacing
+        self.gestureMinimumDistance = gestureMinimumDistance
+        self._index = index
     }
 }
