@@ -20,6 +20,7 @@ where Content : View
     var content: () -> Content
     var pageLength: CGFloat
     var spacing: CGFloat
+    var gestureMinimumDistance: GestureMinimumDistance
     var viewLength: CGFloat
     @Binding var index: Int
     
@@ -56,7 +57,7 @@ where Content : View
         let minimumDistance: CGFloat
         
         switch pageState.dragState {
-        case .dragging, .nearlyEnded, .ended: minimumDistance = 15
+        case .dragging, .nearlyEnded, .ended: minimumDistance = gestureMinimumDistance.value
         case .ending: minimumDistance = 0
         }
         

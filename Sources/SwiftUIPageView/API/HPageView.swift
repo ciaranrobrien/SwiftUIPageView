@@ -29,6 +29,7 @@ where Content : View
     public init(alignment: PageAlignment<HorizontalPageAlignment, VerticalAlignment> = .center,
                 pageWidth: CGFloat? = nil,
                 spacing: CGFloat? = nil,
+                gestureMinimumDistance: GestureMinimumDistance = .compatible,
                 index: Binding<Int> = Binding.constant(0),
                 @ViewBuilder content: @escaping () -> Content)
     {
@@ -37,6 +38,7 @@ where Content : View
                         content: content,
                         pageLength: pageWidth,
                         spacing: spacing,
+						gestureMinimumDistance: gestureMinimumDistance,
                         index: index)
     }
 }
