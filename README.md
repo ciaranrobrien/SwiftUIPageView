@@ -2,7 +2,8 @@
 
 SwiftUI stack views with paged scrolling behaviour.
 
-![Demo](./Resources/Demo.gif "Demo")
+> [!WARNING]
+> This package is no longer maintained. Use ScrollView and [scrollTargetBehaviour](https://developer.apple.com/documentation/swiftui/view/scrolltargetbehavior(_:)) instead.
 
 ## HPageView
 A view that arranges its children in a horizontal line, and provides paged scrolling behaviour.
